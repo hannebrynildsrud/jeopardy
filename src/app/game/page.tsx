@@ -33,36 +33,29 @@ export default function Home() {
       <Link className={styles.settings} href="/settings">
         ADMIN
       </Link>
-      <div className={styles.description}>
-        <h1 className={styles.title}>Jeopardy</h1>
-      </div>
+      <h1 className={styles.title}>Jeopardy</h1>
+      <p className={styles.subtitle}>...with a lil twist ;)</p>
       <div className={styles.container}>
         <div className={styles.grid}>
-          <h3>Hva spiser vi? 🍔</h3>
+          <h3>Hva spiser vi?</h3>
           {list.map((item, index) => (
             <input key={index} placeholder={item.points} />
           ))}
         </div>
         <div className={styles.grid}>
-          <h3>Hvilken film/serie? 🎬</h3>
+          <h3>Hvilken film/serie?</h3>
           {list.map((item, index) => (
             <input key={index} placeholder={item.points} />
           ))}
         </div>
         <div className={styles.grid}>
-          <h3>Hvilket russekull? 🎉</h3>
+          <h3>Hvilket russekull?</h3>
           {list.map((item, index) => (
             <input key={index} placeholder={item.points} />
           ))}
         </div>
         <div className={styles.grid}>
-          <h3>Hvor skal vi? ✈️</h3>
-          {list.map((item, index) => (
-            <input key={index} placeholder={item.points} />
-          ))}
-        </div>
-        <div className={styles.grid}>
-          <h3>Hvilket UKE-arrangement?</h3>
+          <h3>Hvor skal vi?</h3>
           {list.map((item, index) => (
             <input key={index} placeholder={item.points} />
           ))}

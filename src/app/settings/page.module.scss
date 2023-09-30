@@ -30,8 +30,8 @@
     display: flex;
     gap: 1rem;
     .input_field {
-      width: 30%;
       display: flex;
+      color: var(--primary);
       gap: 0.5rem;
       flex-direction: column;
       input {
