@@ -35,7 +35,7 @@ export default function Settings() {
       <div>
         <h1>Innstillinger</h1>
         <p>
-          <Link href="/game">Tilbake til spillet</Link>
+          <Link href="/">Tilbake til spillet</Link>
         </p>
       </div>
       <form className={styles.form}>
