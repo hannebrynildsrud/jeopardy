@@ -1,24 +1,35 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans");
 
 :root {
-  --font-mono: "OpenSans", Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono",
+  --font-mono: "Open Sans", Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono",
     "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
     "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
-  --background-start-rgb: #d28cff;
-  --background-end-rgb: #29cff5;
+  --purple: #d28cff;
+  --light-blue: #29cff5;
+  --primary: #003459;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 4rem;
+
+  min-height: 100vh;
+  background: linear-gradient(90deg, var(--purple), var(--light-blue));
 }
 
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  font-family: inherit;
 }
 
 html,
 body {
   max-width: 100%;
   overflow-x: hidden;
-  font-family: "Open Sans";
 }
 
 body {

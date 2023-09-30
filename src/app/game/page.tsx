@@ -29,8 +29,10 @@ export default function Home() {
     },
   ];
   return (
-    <main className={styles.main}>
-      <Link href="pages/settings">Settings</Link>
+    <main>
+      <Link className={styles.settings} href="/settings">
+        ADMIN
+      </Link>
       <div className={styles.description}>
         <h1 className={styles.title}>Jeopardy</h1>
       </div>
