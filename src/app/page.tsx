@@ -3,9 +3,25 @@ import Link from "next/link";
 import styles from "./page.module.scss";
 import { Category } from "./settings/page";
 import { useEffect, useState } from "react";
+import Confetti from "react-dom-confetti";
 
-export default function Home() {
+const config = {
+  angle: 90,
+  spread: 360,
+  startVelocity: 40,
+  elementCount: 70,
+  dragFriction: 0.12,
+  duration: 3000,
+  stagger: 3,
+  width: "10px",
+  height: "10px",
+  perspective: "500px",
+  colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"],
+};
+
+export default function Game() {
   const [categories, setCategories] = useState<Category[]>();
+  const [confetti, setConfetti] = useState(false);
 
   useEffect(() => {
     const storedCategories = localStorage.getItem("categories");
@@ -26,7 +42,19 @@ export default function Home() {
 
       for (let j = 100; j <= 400; j += 100) {
         categoryInputs.push(
-          <input key={j} type="text" placeholder={j.toString()} />
+          <>
+            <input
+              key={j}
+              type="text"
+              placeholder={j.toString()}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  setConfetti(true);
+                  setTimeout(() => setConfetti(false), 2000);
+                }
+              }}
+            />
+          </>
         );
       }
 
@@ -48,7 +76,10 @@ export default function Home() {
       </Link>
       <h1 className={styles.title}>Jeopardy</h1>
       <p className={styles.subtitle}>...with a lil twist ;)</p>
-      <div className={styles.container}>{renderCategories()}</div>
+      <div className={styles.container}>
+        <Confetti active={confetti} config={config} />
+        {renderCategories()}
+      </div>
     </main>
   );
 }

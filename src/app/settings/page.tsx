@@ -73,7 +73,7 @@ export default function Settings() {
         </label>
         {selectedOption > 0 && renderCategories()}
         <button className={styles.button} type="submit" name="save_categories">
-          Lagre valg
+          Start spillet
         </button>
       </form>
     </main>
