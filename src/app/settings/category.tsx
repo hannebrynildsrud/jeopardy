@@ -1,54 +1,31 @@
 "use client";
 
-import Link from "next/link";
 import styles from "./page.module.scss";
-import { useState } from "react";
 
-interface Category {
-  title: string;
-  numOfSongs: number;
-}
-
-interface Props {
+interface CategoryProps {
   categoryIndex: number;
+  onTitleChange: (title: string) => void;
 }
 
-export default function Category(props: Props) {
-  const { categoryIndex } = props;
-  const options: number[] = [1, 2, 3, 4, 5];
-  const [numOfSongs, setNumOfSongs] = useState<number>(1);
+export function Category(props: CategoryProps) {
+  const { categoryIndex, onTitleChange } = props;
 
-  const handleSelectChange = (event: any) => {
-    setNumOfSongs(event.target.value);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newTitle = e.target.value;
+    onTitleChange(newTitle);
   };
 
   return (
-    <div className={styles.category_field}>
-      <label className={styles.input_field}>
-        {`Kategori ${categoryIndex}`}
-        <input
-          key={categoryIndex}
-          className={styles.form_field}
-          name={`Category${categoryIndex}`}
-          placeholder={`F.eks. hva spiser vi?`}
-          type="text"
-        />
-      </label>
-      <label className={styles.input_field}>
-        Antall sanger
-        <select
-          onChange={handleSelectChange}
-          id="select"
-          value={numOfSongs}
-          className={styles.form_field}
-        >
-          {options.map((e) => (
-            <option key={e} value={e}>
-              {e}
-            </option>
-          ))}
-        </select>
-      </label>
-    </div>
+    <label className={styles.input_field}>
+      {`Kategori ${categoryIndex}`}
+      <input
+        key={categoryIndex}
+        className={styles.form_field}
+        name={`category${categoryIndex}`}
+        placeholder={`F.eks. hva spiser vi?`}
+        type="text"
+        onChange={handleChange}
+      />
+    </label>
   );
 }

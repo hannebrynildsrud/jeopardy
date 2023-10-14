@@ -1,33 +1,46 @@
+"use client";
 import Link from "next/link";
 import styles from "./page.module.scss";
-import { Open_Sans } from "next/font/google";
-
-const open_sans = Open_Sans({ subsets: ["latin"] });
-
-interface Category {
-  points: string;
-  winner: string;
-}
+import { Category } from "./settings/page";
+import { useEffect, useState } from "react";
 
 export default function Home() {
-  const list: Category[] = [
-    {
-      points: "100",
-      winner: "",
-    },
-    {
-      points: "200",
-      winner: "",
-    },
-    {
-      points: "300",
-      winner: "",
-    },
-    {
-      points: "400",
-      winner: "",
-    },
-  ];
+  const [categories, setCategories] = useState<Category[]>();
+
+  useEffect(() => {
+    const storedCategories = localStorage.getItem("categories");
+    if (storedCategories) {
+      const parsedCategories = JSON.parse(storedCategories);
+      setCategories(parsedCategories);
+    }
+  }, []);
+
+  const renderCategories = () => {
+    if (!categories) return null;
+
+    const categoryElements = [];
+
+    for (let i = 0; i < categories.length; i++) {
+      const category = categories[i];
+      const categoryInputs = [];
+
+      for (let j = 100; j <= 400; j += 100) {
+        categoryInputs.push(
+          <input key={j} type="text" placeholder={j.toString()} />
+        );
+      }
+
+      categoryElements.push(
+        <div className={styles.grid} key={i}>
+          <h3>{category.title}</h3>
+          {categoryInputs}
+        </div>
+      );
+    }
+
+    return categoryElements;
+  };
+
   return (
     <main>
       <Link className={styles.settings} href="/settings">
@@ -35,32 +48,7 @@ export default function Home() {
       </Link>
       <h1 className={styles.title}>Jeopardy</h1>
       <p className={styles.subtitle}>...with a lil twist ;)</p>
-      <div className={styles.container}>
-        <div className={styles.grid}>
-          <h3>Hva spiser vi?</h3>
-          {list.map((item, index) => (
-            <input key={index} placeholder={item.points} />
-          ))}
-        </div>
-        <div className={styles.grid}>
-          <h3>Hvilken film/serie?</h3>
-          {list.map((item, index) => (
-            <input key={index} placeholder={item.points} />
-          ))}
-        </div>
-        <div className={styles.grid}>
-          <h3>Hvilket russekull?</h3>
-          {list.map((item, index) => (
-            <input key={index} placeholder={item.points} />
-          ))}
-        </div>
-        <div className={styles.grid}>
-          <h3>Hvor skal vi?</h3>
-          {list.map((item, index) => (
-            <input key={index} placeholder={item.points} />
-          ))}
-        </div>
-      </div>
+      <div className={styles.container}>{renderCategories()}</div>
     </main>
   );
 }

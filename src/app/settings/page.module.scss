@@ -3,6 +3,19 @@
   flex-direction: column;
   gap: 2rem;
 
+  .button {
+    align-self: flex-end;
+    padding: 0.5rem 1rem;
+    background-color: var(--primary);
+    color: white;
+    border-radius: 50px;
+    border: 0;
+    font-size: 1rem;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
   .subtitle {
     display: flex;
     font-size: 2rem;
@@ -26,17 +39,14 @@
     border: 0;
     background: rgba(255, 255, 255, 0.4);
   }
-  .category_field {
+
+  .input_field {
     display: flex;
-    gap: 1rem;
-    .input_field {
-      display: flex;
-      color: var(--primary);
-      gap: 0.5rem;
-      flex-direction: column;
-      input {
-        font-size: 1rem;
-      }
+    color: var(--primary);
+    gap: 0.5rem;
+    flex-direction: column;
+    input {
+      font-size: 1rem;
     }
   }
 }
