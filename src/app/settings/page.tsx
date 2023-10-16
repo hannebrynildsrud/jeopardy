@@ -18,7 +18,8 @@ export interface Slots {
 
 export default function Settings() {
   const options: number[] = [1, 2, 3, 4, 5];
-  const storedCategories = localStorage.getItem("categories");
+  const storedCategories =
+    typeof window !== "undefined" && localStorage.getItem("categories");
 
   const [selectedOption, setSelectedOption] = useState<number>(1);
   const [categories, setCategories] = useState<Category[]>([]);
