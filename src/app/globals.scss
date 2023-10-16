@@ -52,3 +52,20 @@ h3 {
   font-weight: 600;
   font-size: 1.5rem;
 }
+
+button {
+  padding: 0.5rem 1rem;
+  background-color: var(--primary);
+  color: white;
+  border-radius: 50px;
+  border: 0;
+  font-size: 1rem;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+fieldset {
+  border: 0;
+  display: flex;
+}

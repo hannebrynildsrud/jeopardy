@@ -2,26 +2,47 @@
 
 import { useState } from "react";
 import styles from "./page.module.scss";
-import Link from "next/link";
 import { Category } from "./category";
+import { Admin } from "./admin";
 
 export interface Category {
   title: string;
+  slots: Slots[];
+}
+
+export interface Slots {
+  points: string;
+  isActive: boolean;
+  winner: string;
 }
 
 export default function Settings() {
   const options: number[] = [1, 2, 3, 4, 5];
+  const storedCategories = localStorage.getItem("categories");
+
   const [selectedOption, setSelectedOption] = useState<number>(1);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [isGameActive, setGameActive] = useState<boolean>(!!storedCategories);
 
   const handleSelectChange = (event: any) => {
     setSelectedOption(event.target.value);
   };
 
   const handleTitleChange = (index: number, title: string) => {
-    // Create a copy of the categories array and update the title for the specific index
     const updatedCategories = [...categories];
-    updatedCategories[index] = { title };
+    updatedCategories[index] = {
+      title,
+      slots: [
+        {
+          points: "100",
+          isActive: false,
+          winner: "Some Winner",
+        },
+        { points: "200", isActive: false, winner: "Some Winner" },
+        { points: "300", isActive: false, winner: "Some Winner" },
+        { points: "400", isActive: false, winner: "Some Winner" },
+      ],
+    };
     setCategories(updatedCategories);
   };
 
@@ -45,37 +66,49 @@ export default function Settings() {
       (category) => category.title.trim() !== ""
     );
     localStorage.setItem("categories", JSON.stringify(filteredCategories));
+    setGameActive(true);
+  };
+
+  const resetGame = () => {
+    localStorage.removeItem("categories");
+    setGameActive(false);
   };
 
   return (
     <main>
       <div>
         <h1>Innstillinger</h1>
-        <p>
-          <Link href="/">Tilbake til spillet</Link>
-        </p>
+        <p></p>
       </div>
-      <form className={styles.form} onSubmit={handleSubmit}>
-        <label className={styles.subtitle}>
-          Hvor mange kategorier?
-          <select
-            onChange={handleSelectChange}
-            id="select"
-            value={selectedOption}
-            className={styles.form_field}
+      {!isGameActive ? (
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <label className={styles.subtitle}>
+            Hvor mange kategorier?
+            <select
+              onChange={handleSelectChange}
+              id="select"
+              value={selectedOption}
+              className={styles.form_field}
+            >
+              {options.map((e) => (
+                <option key={e} value={e}>
+                  {e}
+                </option>
+              ))}
+            </select>
+          </label>
+          {selectedOption > 0 && renderCategories()}
+          <button
+            className={styles.button}
+            type="submit"
+            name="save_categories"
           >
-            {options.map((e) => (
-              <option key={e} value={e}>
-                {e}
-              </option>
-            ))}
-          </select>
-        </label>
-        {selectedOption > 0 && renderCategories()}
-        <button className={styles.button} type="submit" name="save_categories">
-          Start spillet
-        </button>
-      </form>
+            Start spillet
+          </button>
+        </form>
+      ) : (
+        <Admin resetGame={resetGame} />
+      )}
     </main>
   );
 }

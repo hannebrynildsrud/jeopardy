@@ -3,19 +3,6 @@
   flex-direction: column;
   gap: 2rem;
 
-  .button {
-    align-self: flex-end;
-    padding: 0.5rem 1rem;
-    background-color: var(--primary);
-    color: white;
-    border-radius: 50px;
-    border: 0;
-    font-size: 1rem;
-    &:hover {
-      cursor: pointer;
-    }
-  }
-
   .subtitle {
     display: flex;
     font-size: 2rem;
@@ -48,5 +35,29 @@
     input {
       font-size: 1rem;
     }
+  }
+}
+
+.reset {
+  align-self: flex-end;
+  background: transparent;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+  &:hover {
+    background-color: var(--purple);
+  }
+}
+
+.active_categories {
+  display: flex;
+  flex-direction: column;
+  float: left;
+  .title {
+    font-weight: 500;
+    color: var(--primary);
+  }
+  .slot {
+    display: flex;
+    gap: 0.5rem;
   }
 }

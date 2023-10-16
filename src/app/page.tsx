@@ -38,25 +38,23 @@ export default function Game() {
 
     for (let i = 0; i < categories.length; i++) {
       const category = categories[i];
-      const categoryInputs = [];
+      const categoryInputs: JSX.Element[] = [];
 
-      for (let j = 100; j <= 400; j += 100) {
+      category.slots.forEach((slot) =>
         categoryInputs.push(
-          <>
-            <input
-              key={j}
-              type="text"
-              placeholder={j.toString()}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  setConfetti(true);
-                  setTimeout(() => setConfetti(false), 2000);
-                }
-              }}
-            />
-          </>
-        );
-      }
+          <input
+            key={slot.points}
+            type="text"
+            placeholder={slot.points}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                setConfetti(true);
+                setTimeout(() => setConfetti(false), 2000);
+              }
+            }}
+          />
+        )
+      );
 
       categoryElements.push(
         <div className={styles.grid} key={i}>
@@ -65,7 +63,6 @@ export default function Game() {
         </div>
       );
     }
-
     return categoryElements;
   };
 
