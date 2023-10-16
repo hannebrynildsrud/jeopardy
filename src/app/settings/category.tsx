@@ -2,12 +2,12 @@
 
 import styles from "./page.module.scss";
 
-interface CategoryProps {
+interface Props {
   categoryIndex: number;
   onTitleChange: (title: string) => void;
 }
 
-export function Category(props: CategoryProps) {
+export function CategoryInput(props: Props) {
   const { categoryIndex, onTitleChange } = props;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
