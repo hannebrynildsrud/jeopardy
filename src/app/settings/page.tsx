@@ -2,19 +2,9 @@
 
 import { useState } from "react";
 import styles from "./page.module.scss";
-import { Category } from "./category";
 import { Admin } from "./admin";
-
-export interface Category {
-  title: string;
-  slots: Slots[];
-}
-
-export interface Slots {
-  points: string;
-  isActive: boolean;
-  winner: string;
-}
+import { Category } from "../models/interfaces";
+import { CategoryInput } from "./category";
 
 export default function Settings() {
   const options: number[] = [1, 2, 3, 4, 5];
@@ -32,6 +22,7 @@ export default function Settings() {
   const handleTitleChange = (index: number, title: string) => {
     const updatedCategories = [...categories];
     updatedCategories[index] = {
+      id: index,
       title,
       slots: [
         {
@@ -43,6 +34,8 @@ export default function Settings() {
         { points: "300", isActive: false, winner: "Some Winner" },
         { points: "400", isActive: false, winner: "Some Winner" },
       ],
+      activeSlot: 0,
+      isActive: false,
     };
     setCategories(updatedCategories);
   };
@@ -51,7 +44,7 @@ export default function Settings() {
     const categoryInputs = [];
     for (let i = 1; i <= selectedOption; i++) {
       categoryInputs.push(
-        <Category
+        <CategoryInput
           key={i}
           categoryIndex={i}
           onTitleChange={(title: string) => handleTitleChange(i - 1, title)}

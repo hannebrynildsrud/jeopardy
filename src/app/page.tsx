@@ -1,9 +1,9 @@
 "use client";
 import Link from "next/link";
 import styles from "./page.module.scss";
-import { Category } from "./settings/page";
 import { useEffect, useState } from "react";
 import Confetti from "react-dom-confetti";
+import { Category, Slots } from "./models/interfaces";
 
 const config = {
   angle: 90,
@@ -20,7 +20,7 @@ const config = {
 };
 
 export default function Game() {
-  const [categories, setCategories] = useState<Category[]>();
+  const [categories, setCategories] = useState<Category[]>([]);
   const [confetti, setConfetti] = useState(false);
 
   useEffect(() => {
@@ -31,6 +31,20 @@ export default function Game() {
     }
   }, []);
 
+  const getActiveCategoryAndSlot = () => {
+    for (const category of categories) {
+      if (category.activeSlot < category.slots.length) {
+        return {
+          activeCategory: category,
+          activeSlot: category.activeSlot,
+        };
+      }
+    }
+    return null;
+  };
+
+  const activeData = getActiveCategoryAndSlot();
+
   const renderCategories = () => {
     if (!categories) return null;
 
@@ -40,7 +54,7 @@ export default function Game() {
       const category = categories[i];
       const categoryInputs: JSX.Element[] = [];
 
-      category.slots.forEach((slot) =>
+      category.slots.forEach((slot: Slots) =>
         categoryInputs.push(
           <input
             key={slot.points}
@@ -75,7 +89,7 @@ export default function Game() {
       <p className={styles.subtitle}>...with a lil twist ;)</p>
       <div className={styles.container}>
         <Confetti active={confetti} config={config} />
-        {renderCategories()}
+        {activeData ? renderCategories() : <p>Ingen spill aktive</p>}
       </div>
     </main>
   );
