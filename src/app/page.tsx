@@ -4,7 +4,7 @@ import styles from "./page.module.scss";
 import { useEffect, useState } from "react";
 import Confetti from "react-dom-confetti";
 import { Category, Slots } from "./models/interfaces";
-import { useGameState } from "./utils/useGameState";
+import { useGameState } from "./hooks/useGameState";
 
 export const config = {
   angle: 90,

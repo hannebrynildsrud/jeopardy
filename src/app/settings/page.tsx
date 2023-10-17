@@ -6,7 +6,7 @@ import styles from "./page.module.scss";
 import { Admin } from "./admin";
 import { Category, GameState } from "../models/interfaces";
 import { CategoryInput } from "./category";
-import { useGameState } from "../utils/useGameState";
+import { useGameState } from "../hooks/useGameState";
 
 export default function Settings() {
   const options: number[] = [1, 2, 3, 4, 5];
