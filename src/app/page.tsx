@@ -6,7 +6,7 @@ import Confetti from "react-dom-confetti";
 import { Category, Slots } from "./models/interfaces";
 import { useGameState } from "./hooks/useGameState";
 
-export const config = {
+const config = {
   angle: 90,
   spread: 360,
   startVelocity: 40,
