@@ -151,6 +151,11 @@
   resolved "https://registry.npmjs.org/@types/scheduler/-/scheduler-0.16.4.tgz"
   integrity sha512-2L9ifAGl7wmXwP4v3pN4p2FLhD0O1qsJpvKmNin5VA8+UvNVb447UDaAEV6UdrkA+m/Xs58U1RFps44x6TFsVQ==
 
+"@types/uuid@^9.0.5":
+  version "9.0.5"
+  resolved "https://registry.npmjs.org/@types/uuid/-/uuid-9.0.5.tgz"
+  integrity sha512-xfHdwa1FMJ082prjSJpoEI57GZITiQz10r3vEJCHa2khEFQjKy91aWKz6+zybzssCvXUwE1LQWgWVwZ4nYUvHQ==
+
 "@typescript-eslint/parser@^5.4.2 || ^6.0.0":
   version "6.7.3"
   resolved "https://registry.npmjs.org/@typescript-eslint/parser/-/parser-6.7.3.tgz"
@@ -2075,6 +2080,11 @@ uri-js@^4.2.2:
   integrity sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==
   dependencies:
     punycode "^2.1.0"
+
+uuid@^9.0.1:
+  version "9.0.1"
+  resolved "https://registry.npmjs.org/uuid/-/uuid-9.0.1.tgz"
+  integrity sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==
 
 watchpack@2.4.0:
   version "2.4.0"

@@ -4,8 +4,9 @@ import styles from "./page.module.scss";
 import { useEffect, useState } from "react";
 import Confetti from "react-dom-confetti";
 import { Category, Slots } from "./models/interfaces";
+import { useGameState } from "./utils/useGameState";
 
-const config = {
+export const config = {
   angle: 90,
   spread: 360,
   startVelocity: 40,
@@ -22,28 +23,13 @@ const config = {
 export default function Game() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [confetti, setConfetti] = useState(false);
+  const { gameState } = useGameState();
 
   useEffect(() => {
-    const storedCategories = localStorage.getItem("categories");
-    if (storedCategories) {
-      const parsedCategories = JSON.parse(storedCategories);
-      setCategories(parsedCategories);
+    if (gameState) {
+      setCategories(gameState.categories);
     }
-  }, []);
-
-  const getActiveCategoryAndSlot = () => {
-    for (const category of categories) {
-      if (category.activeSlot < category.slots.length) {
-        return {
-          activeCategory: category,
-          activeSlot: category.activeSlot,
-        };
-      }
-    }
-    return null;
-  };
-
-  const activeData = getActiveCategoryAndSlot();
+  }, [gameState]);
 
   const renderCategories = () => {
     if (!categories) return null;
@@ -89,7 +75,11 @@ export default function Game() {
       <p className={styles.subtitle}>...with a lil twist ;)</p>
       <div className={styles.container}>
         <Confetti active={confetti} config={config} />
-        {activeData ? renderCategories() : <p>Ingen spill aktive</p>}
+        {gameState?.isGameActive ? (
+          renderCategories()
+        ) : (
+          <p>Ingen spill aktive</p>
+        )}
       </div>
     </main>
   );
