@@ -1,6 +1,7 @@
 export interface GameState {
   gameId: string;
   isRegistrationOpen: boolean;
+  isGameActive: boolean;
   categories: Category[];
   teams: Team[];
 }

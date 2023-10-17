@@ -1,22 +1,21 @@
 "use client";
 
+import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 import styles from "./page.module.scss";
 import { Admin } from "./admin";
-import { Category } from "../models/interfaces";
+import { Category, GameState } from "../models/interfaces";
 import { CategoryInput } from "./category";
+import { useGameState } from "../utils/useGameState";
 
 export default function Settings() {
   const options: number[] = [1, 2, 3, 4, 5];
-  const storedCategories =
-    typeof window !== "undefined" && localStorage.getItem("categories");
-
-  const [selectedOption, setSelectedOption] = useState<number>(1);
+  const [numOfCategories, setNumOfCategories] = useState<number>(1);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [isGameActive, setGameActive] = useState<boolean>(!!storedCategories);
+  const { gameState, updateGameState, resetGame } = useGameState();
 
-  const handleSelectChange = (event: any) => {
-    setSelectedOption(event.target.value);
+  const handleNumberOfCategories = (event: any) => {
+    setNumOfCategories(event.target.value);
   };
 
   const handleTitleChange = (index: number, title: string) => {
@@ -42,7 +41,7 @@ export default function Settings() {
 
   const renderCategories = () => {
     const categoryInputs = [];
-    for (let i = 1; i <= selectedOption; i++) {
+    for (let i = 1; i <= numOfCategories; i++) {
       categoryInputs.push(
         <CategoryInput
           key={i}
@@ -55,33 +54,32 @@ export default function Settings() {
   };
 
   const handleSubmit = (e: any) => {
-    e.preventDefault();
     const filteredCategories = categories.filter(
       (category) => category.title.trim() !== ""
     );
-    localStorage.setItem("categories", JSON.stringify(filteredCategories));
-    setGameActive(true);
-  };
+    const newGameId = uuidv4();
+    const updatedGameState: GameState = {
+      gameId: newGameId,
+      isRegistrationOpen: true, // Set isRegistrationOpen to false to start the game.
+      categories: filteredCategories, // Update the categories as needed.
+      teams: [],
+      isGameActive: true,
+    };
 
-  const resetGame = () => {
-    localStorage.removeItem("categories");
-    setGameActive(false);
+    updateGameState(updatedGameState);
   };
 
   return (
     <main>
-      <div>
-        <h1>Innstillinger</h1>
-        <p></p>
-      </div>
-      {!isGameActive ? (
+      <h1>Innstillinger</h1>
+      {!gameState?.isGameActive ? (
         <form className={styles.form} onSubmit={handleSubmit}>
           <label className={styles.subtitle}>
             Hvor mange kategorier?
             <select
-              onChange={handleSelectChange}
+              onChange={handleNumberOfCategories}
               id="select"
-              value={selectedOption}
+              value={numOfCategories}
               className={styles.form_field}
             >
               {options.map((e) => (
@@ -91,7 +89,7 @@ export default function Settings() {
               ))}
             </select>
           </label>
-          {selectedOption > 0 && renderCategories()}
+          {numOfCategories > 0 && renderCategories()}
           <button
             className={styles.button}
             type="submit"
