@@ -3,8 +3,8 @@
 import { useState } from "react";
 import styles from "./team.module.scss";
 import Confetti from "react-dom-confetti";
-import { confettiConfig } from "../page";
 import { useGameState } from "../hooks/useGameState";
+import { confettiConfig } from "../utils/confettiConfig";
 
 export default function User() {
   const [isSubmitted, hasSubmittedTeam] = useState<boolean>(false);
