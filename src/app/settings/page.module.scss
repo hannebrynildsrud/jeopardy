@@ -38,14 +38,10 @@
   }
 }
 
-.reset {
-  align-self: flex-end;
-  background: transparent;
-  color: var(--primary);
-  border: 2px solid var(--primary);
-  &:hover {
-    background-color: var(--purple);
-  }
+.game_button {
+  width: fit-content;
+  display: flex;
+  align-self: end;
 }
 
 .active_categories {

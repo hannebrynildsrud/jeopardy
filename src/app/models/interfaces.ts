@@ -1,9 +1,16 @@
-export interface GameState {
+export interface Game {
   gameId: string;
-  isRegistrationOpen: boolean;
-  isGameActive: boolean;
+  gameState: GameState;
   categories: Category[];
   teams: Team[];
+}
+
+export enum GameState {
+  TEAM_REGISTRATION = "TEAM_REGISTRATION",
+  ROUND_SETUP = "ROUND_SETUP",
+  ROUND_ACTIVE = "ROUND_ACTIVE",
+  ROUND_FINISHED = "ROUND_FINISHED",
+  GAME_FINISHED = "GAME_FINISHED",
 }
 
 export interface Team {

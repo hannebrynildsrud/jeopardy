@@ -3,33 +3,21 @@ import Link from "next/link";
 import styles from "./page.module.scss";
 import { useEffect, useState } from "react";
 import Confetti from "react-dom-confetti";
-import { Category, Slots } from "./models/interfaces";
+import { Category, GameState, Slots } from "./models/interfaces";
 import { useGameState } from "./hooks/useGameState";
-
-const config = {
-  angle: 90,
-  spread: 360,
-  startVelocity: 40,
-  elementCount: 70,
-  dragFriction: 0.12,
-  duration: 3000,
-  stagger: 3,
-  width: "10px",
-  height: "10px",
-  perspective: "500px",
-  colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"],
-};
+import { QRCodeSVG } from "qrcode.react";
+import { confettiConfig } from "./utils/confettiConfig";
 
 export default function Game() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [confetti, setConfetti] = useState(false);
-  const { gameState } = useGameState();
+  const { game } = useGameState();
 
   useEffect(() => {
-    if (gameState) {
-      setCategories(gameState.categories);
+    if (game) {
+      setCategories(game.categories);
     }
-  }, [gameState]);
+  }, [game]);
 
   const renderCategories = () => {
     if (!categories) return null;
@@ -74,11 +62,18 @@ export default function Game() {
       <h1 className={styles.title}>Jeopardy</h1>
       <p className={styles.subtitle}>...with a lil twist ;)</p>
       <div className={styles.container}>
-        <Confetti active={confetti} config={config} />
-        {gameState?.isGameActive ? (
-          renderCategories()
-        ) : (
-          <p>Ingen spill aktive</p>
+        <Confetti active={confetti} config={confettiConfig} />
+        {game?.gameState === GameState.ROUND_ACTIVE && renderCategories()}
+        {game?.gameState === GameState.TEAM_REGISTRATION && (
+          <div className={styles.qr_code_container}>
+            <h3>Registreringen er åpen!</h3>{" "}
+            {game.gameId && (
+              <QRCodeSVG
+                value={`${process.env.NEXT_PUBLIC_URL}/team/${game.gameId}`}
+                className={styles.qr_code}
+              />
+            )}
+          </div>
         )}
       </div>
     </main>

@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import kvMock from "../../services/kvMock";
 import pusher from "../../services/pusherConfig";
-import { GameState } from "../../models/interfaces";
+import { Game, GameState } from "../../models/interfaces";
 
 export async function GET(request: Request) {
   const gameState = await kvMock.get("gameState");
@@ -17,7 +17,7 @@ export async function GET(request: Request) {
 }
 
 export async function POST(req: NextRequest) {
-  const newGameState: GameState | null = await req.json();
+  const newGameState: Game | null = await req.json();
   if (!newGameState) {
     return NextResponse.json({ error: "Invalid game state" }, { status: 400 });
   }

@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useEffect, useState } from "react";
 import styles from "./page.module.scss";
 import { Admin } from "./admin";
-import { Category, GameState } from "../models/interfaces";
+import { Category, Game, GameState } from "../models/interfaces";
 import { CategoryInput } from "./category";
 import { useGameState } from "../hooks/useGameState";
 
@@ -12,11 +12,8 @@ export default function Settings() {
   const options: number[] = [1, 2, 3, 4, 5];
   const [numOfCategories, setNumOfCategories] = useState<number>(1);
   const [categories, setCategories] = useState<Category[]>([]);
-  const { gameState, updateGameState, resetGame } = useGameState();
 
-  useEffect(() => {
-    console.log(gameState)
-  },[gameState])
+  const { game, updateGameState, resetGame } = useGameState();
 
   const handleNumberOfCategories = (event: any) => {
     setNumOfCategories(event.target.value);
@@ -58,26 +55,24 @@ export default function Settings() {
   };
 
   const handleSubmit = (e: any) => {
-    e.preventDefault();  // Prevent the default form submission behavior
+    e.preventDefault(); // Prevent the default form submission behavior
     const filteredCategories = categories.filter(
-        (category) => category.title.trim() !== ""
+      (category) => category.title.trim() !== ""
     );
-    const staticGameId = "test-game-id";  // Use a static string as the game ID
-    const updatedGameState: GameState = {
-        gameId: staticGameId,
-        isRegistrationOpen: true, // Set isRegistrationOpen to false to start the game.
-        categories: filteredCategories, // Update the categories as needed.
-        teams: [],
-        isGameActive: true,
+    const staticGameId = "test-game-id";
+    const updatedGameState: Game = {
+      gameId: staticGameId,
+      gameState: GameState.TEAM_REGISTRATION,
+      categories: filteredCategories, // Update the categories as needed.
+      teams: [],
     };
-
     updateGameState(updatedGameState);
   };
 
   return (
     <main>
       <h1>Innstillinger</h1>
-      {!gameState?.isGameActive ? (
+      {!game?.gameId ? (
         <form className={styles.form} onSubmit={handleSubmit}>
           <label className={styles.subtitle}>
             Hvor mange kategorier?
@@ -96,11 +91,11 @@ export default function Settings() {
           </label>
           {numOfCategories > 0 && renderCategories()}
           <button
-            className={styles.button}
+            className={styles.game_button}
             type="submit"
             name="save_categories"
           >
-            Start spillet
+            Åpne registrering
           </button>
         </form>
       ) : (
