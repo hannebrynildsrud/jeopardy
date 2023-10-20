@@ -1,7 +1,7 @@
 "use client";
 
 import { v4 as uuidv4 } from "uuid";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./page.module.scss";
 import { Admin } from "./admin";
 import { Category, GameState } from "../models/interfaces";
@@ -13,6 +13,10 @@ export default function Settings() {
   const [numOfCategories, setNumOfCategories] = useState<number>(1);
   const [categories, setCategories] = useState<Category[]>([]);
   const { gameState, updateGameState, resetGame } = useGameState();
+
+  useEffect(() => {
+    console.log(gameState)
+  },[gameState])
 
   const handleNumberOfCategories = (event: any) => {
     setNumOfCategories(event.target.value);
@@ -54,16 +58,17 @@ export default function Settings() {
   };
 
   const handleSubmit = (e: any) => {
+    e.preventDefault();  // Prevent the default form submission behavior
     const filteredCategories = categories.filter(
-      (category) => category.title.trim() !== ""
+        (category) => category.title.trim() !== ""
     );
-    const newGameId = uuidv4();
+    const staticGameId = "test-game-id";  // Use a static string as the game ID
     const updatedGameState: GameState = {
-      gameId: newGameId,
-      isRegistrationOpen: true, // Set isRegistrationOpen to false to start the game.
-      categories: filteredCategories, // Update the categories as needed.
-      teams: [],
-      isGameActive: true,
+        gameId: staticGameId,
+        isRegistrationOpen: true, // Set isRegistrationOpen to false to start the game.
+        categories: filteredCategories, // Update the categories as needed.
+        teams: [],
+        isGameActive: true,
     };
 
     updateGameState(updatedGameState);
