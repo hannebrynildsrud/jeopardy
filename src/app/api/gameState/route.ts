@@ -1,11 +1,20 @@
 // src/app/api/gameState/route.ts
 import { NextRequest, NextResponse } from "next/server";
-import kvMock from "../../services/kvMock";
+import { kv } from "@vercel/kv";
 import pusher from "../../services/pusherConfig";
 import { Game, GameState } from "../../models/interfaces";
 
-export async function GET(request: Request) {
-  const gameState = await kvMock.get("gameState");
+import { NextApiRequest, NextApiResponse } from "next";
+
+export async function GET(req: NextRequest) {
+  const url = new URL(req.url);
+  const gameId = url.searchParams.get("id");
+
+  if (!gameId) {
+    return NextResponse.json({ error: "Game ID is required" }, { status: 400 });
+  }
+
+  const gameState = await kv.get<GameState>(`gameState-${gameId}`);
   if (gameState) {
     return NextResponse.json(gameState, { status: 200 });
   } else {
@@ -23,7 +32,7 @@ export async function POST(req: NextRequest) {
   }
   const { gameId } = newGameState; // Extract the gameId from the new game state
 
-  await kvMock.set(`gameState-${gameId}`, newGameState); // Store the game state using a key that includes the gameId
+  await kv.set(`game-${gameId}`, newGameState); // Store the game state using a key that includes the gameId
 
   pusher.trigger(`game-${gameId}`, "state-update", newGameState); // Trigger a Pusher event on a channel specific to the gameId
 

@@ -3,21 +3,13 @@ import { useState, useEffect } from "react";
 import { Game, GameState } from "../models/interfaces";
 import Pusher from "pusher-js";
 
-// Initial static game ID for testing
-const staticGameId = "test-game-id";
-
 export function useGameState() {
-  const [game, setGameState] = useState<Game | null>({
-    gameId: staticGameId,
-    gameState: GameState.TEAM_REGISTRATION,
-    categories: [],
-    teams: [],
-  });
+  const [game, setGameState] = useState<Game | null>(null);
 
   useEffect(() => {
-    if (!game) return; // Exit early if gameState is null
+    if (!game) return;
 
-    const { gameId } = game; // Extract gameId from gameState
+    const { gameId } = game;
 
     const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY!, {
       cluster: process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER!,
@@ -36,7 +28,7 @@ export function useGameState() {
     return () => {
       pusher.unsubscribe(`game-${gameId}`);
     };
-  }, [game]); // Depend on gameState so the effect reruns when gameState changes
+  }, [game]);
 
   const updateGameState = async (newGameState: Game) => {
     console.log("Updating game state:", newGameState);

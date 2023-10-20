@@ -55,16 +55,16 @@ export default function Settings() {
   };
 
   const handleSubmit = (e: any) => {
-    e.preventDefault(); // Prevent the default form submission behavior
+    e.preventDefault(); 
     const filteredCategories = categories.filter(
-      (category) => category.title.trim() !== ""
+        (category) => category.title.trim() !== ""
     );
-    const staticGameId = "test-game-id";
+    const newGameId = uuidv4();
     const updatedGameState: Game = {
-      gameId: staticGameId,
-      gameState: GameState.TEAM_REGISTRATION,
-      categories: filteredCategories, // Update the categories as needed.
-      teams: [],
+        gameId: newGameId,
+        gameState: GameState.TEAM_REGISTRATION,
+        categories: filteredCategories, 
+        teams: [],
     };
     updateGameState(updatedGameState);
   };
