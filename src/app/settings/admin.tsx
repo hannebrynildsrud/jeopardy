@@ -10,7 +10,9 @@ interface Props {
 
 export function Admin(props: Props) {
   const { resetGame } = props;
-  const { gameState } = useGameState();
+  const { game } = useGameState();
+
+  const onStartGame = () => {};
 
   return (
     <>
@@ -18,7 +20,7 @@ export function Admin(props: Props) {
         <h2>Registreringen er åpen!</h2>
         <div>
           <h3>Registerte lag</h3>
-          {gameState?.teams.map((team, key) => (
+          {game?.teams.map((team, key) => (
             <p key={key}>{team.teamName}</p>
           ))}
         </div>
@@ -28,7 +30,7 @@ export function Admin(props: Props) {
           Nullstill spill
         </button>
         <button>
-          <Link href="/"> Gå til spillet</Link>
+          <Link href="/"> Start spillet</Link>
         </button>
       </div>
     </>

@@ -3,7 +3,7 @@ import Link from "next/link";
 import styles from "./page.module.scss";
 import { useEffect, useState } from "react";
 import Confetti from "react-dom-confetti";
-import { Category, Slots } from "./models/interfaces";
+import { Category, GameState, Slots } from "./models/interfaces";
 import { useGameState } from "./hooks/useGameState";
 import { QRCodeSVG } from "qrcode.react";
 import { confettiConfig } from "./utils/confettiConfig";
@@ -11,13 +11,13 @@ import { confettiConfig } from "./utils/confettiConfig";
 export default function Game() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [confetti, setConfetti] = useState(false);
-  const { gameState } = useGameState();
+  const { game } = useGameState();
 
   useEffect(() => {
-    if (gameState) {
-      setCategories(gameState.categories);
+    if (game) {
+      setCategories(game.categories);
     }
-  }, [gameState]);
+  }, [game]);
 
   const renderCategories = () => {
     if (!categories) return null;
@@ -63,15 +63,13 @@ export default function Game() {
       <p className={styles.subtitle}>...with a lil twist ;)</p>
       <div className={styles.container}>
         <Confetti active={confetti} config={confettiConfig} />
-        {gameState?.isGameActive &&
-          !gameState.isRegistrationOpen &&
-          renderCategories()}
-        {gameState?.isRegistrationOpen && (
+        {game?.gameState === GameState.ROUND_ACTIVE && renderCategories()}
+        {game?.gameState === GameState.TEAM_REGISTRATION && (
           <div className={styles.qr_code_container}>
             <h3>Registreringen er åpen!</h3>{" "}
-            {gameState.gameId && (
+            {game.gameId && (
               <QRCodeSVG
-                value={`https://jeopardy-sigma.vercel.app/team/${gameState.gameId}`}
+                value={`${process.env.NEXT_PUBLIC_URL}/team/${game.gameId}`}
                 className={styles.qr_code}
               />
             )}

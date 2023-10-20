@@ -41,6 +41,7 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
 h1 {
   color: var(--primary);
   font-size: 2rem;
@@ -50,7 +51,7 @@ h3 {
   text-align: center;
   color: var(--primary);
   font-weight: 600;
-  font-size: 1.5rem;
+  font-size: 2rem;
 }
 
 button {
@@ -75,4 +76,8 @@ input {
   border-radius: 50px;
   border: 0;
   background: rgba(255, 255, 255, 0.4);
+  &::placeholder {
+    font-size: 1rem;
+    color: gray;
+  }
 }
