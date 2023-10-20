@@ -12,6 +12,16 @@
 .container {
   display: flex;
   gap: 1rem;
+  .qr_code_container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+    svg {
+      width: 14rem;
+      height: 14rem;
+    }
+  }
 
   .grid {
     display: flex;

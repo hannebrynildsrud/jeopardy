@@ -91,11 +91,11 @@ export default function Settings() {
           </label>
           {numOfCategories > 0 && renderCategories()}
           <button
-            className={styles.button}
+            className={styles.game_button}
             type="submit"
             name="save_categories"
           >
-            Start spillet
+            Åpne registrering
           </button>
         </form>
       ) : (

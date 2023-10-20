@@ -1,7 +1,9 @@
 .team_container {
-  justify-content: center;
   padding: 2.5rem;
   .input_field {
+    width: 100%;
+  }
+  .save_button {
     width: 100%;
   }
 }

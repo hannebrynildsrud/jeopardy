@@ -14,7 +14,6 @@ export function useGameState() {
 
   const updateGameState = (newGameState: GameState) => {
     // Update the game state in your database or storage here.
-
     localStorage.setItem("gameState", JSON.stringify(newGameState)); // Example: Using localStorage
     setGameState(newGameState);
   };
