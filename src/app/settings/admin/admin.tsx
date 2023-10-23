@@ -17,7 +17,6 @@ export function Admin(props: Props) {
   return (
     <>
       <div className={styles.top_container}>
-        <h2>Registreringen er åpen!</h2>
         {game && <Categories categories={game.categories} isAdmin={true} />}
       </div>
       <div className={styles.button_container}>
