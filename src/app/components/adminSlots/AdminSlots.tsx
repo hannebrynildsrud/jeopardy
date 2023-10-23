@@ -27,6 +27,11 @@ export default function AdminSlots(props: Props) {
       if (updatedCategory) {
         updatedCategory.isActive = true;
         updatedCategory.activeSlot = slot.points;
+        const updatedSlot = updatedCategory.slots.find(
+          (s) => s.points === slot.points
+        );
+
+        if (updatedSlot) updatedSlot.isActive = true;
       }
       if (game?.gameId) {
         updateGameState(updatedGame);
@@ -47,7 +52,6 @@ export default function AdminSlots(props: Props) {
         );
 
         if (updatedCategory) {
-          // Find the slot in the category and update its winner
           const updatedSlot = updatedCategory.slots.find(
             (s) => s.points === slot.points
           );
@@ -67,6 +71,16 @@ export default function AdminSlots(props: Props) {
           className={styles.input_radio}
           key={`${category.title}_${slot.points}`}
         >
+          <label htmlFor={`${category.title}_${slot.points}`}>
+            <input
+              type="radio"
+              id={`${category.title}_${slot.points}`}
+              name={category.title}
+              value={`${category.title}_${slot.points}`}
+              onChange={(e) => updateActiveCategory(e, category, slot)}
+            />
+            Aktiv
+          </label>
           <input
             key={slot.points}
             disabled={category.activeSlot !== slot.points}
@@ -82,16 +96,6 @@ export default function AdminSlots(props: Props) {
               }
             }}
           />
-          <label htmlFor={`${category.title}_${slot.points}`}>
-            <input
-              type="radio"
-              id={`${category.title}_${slot.points}`}
-              name={category.title}
-              value={`${category.title}_${slot.points}`}
-              onChange={(e) => updateActiveCategory(e, category, slot)}
-            />
-            Aktiv
-          </label>
         </div>
       ))}
     </>

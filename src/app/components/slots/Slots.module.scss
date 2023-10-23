@@ -43,3 +43,7 @@
     border-bottom-left-radius: 30% 50%;
   }
 }
+
+.active_slot {
+  border: 0.125rem solid var(--primary);
+}
