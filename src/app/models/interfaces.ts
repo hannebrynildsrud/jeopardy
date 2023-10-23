@@ -27,7 +27,7 @@ export interface Category {
 }
 
 export interface Slots {
-  points: string;
+  points: number;
   isActive: boolean;
   winner: Team | null;
 }

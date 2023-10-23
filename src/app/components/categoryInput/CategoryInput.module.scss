@@ -1,0 +1,15 @@
+.input_field {
+  display: flex;
+  color: var(--primary);
+  gap: 0.5rem;
+  flex-direction: column;
+  input {
+    font-size: 1rem;
+  }
+  .form_field {
+    padding: 1rem;
+    border-radius: 50px;
+    border: 0;
+    background: rgba(255, 255, 255, 0.4);
+  }
+}

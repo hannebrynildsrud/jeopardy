@@ -1,12 +1,12 @@
 "use client";
 
 import { v4 as uuidv4 } from "uuid";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "./page.module.scss";
-import { Admin } from "./admin";
+import { Admin } from "./admin/admin";
 import { Category, Game, GameState } from "../models/interfaces";
-import { CategoryInput } from "./category";
 import { useGameContext } from "../context/GameContext";
+import { CategoryInput } from "../components/categoryInput/CategoryInput";
 
 export default function Settings() {
   const options: number[] = [1, 2, 3, 4, 5];
@@ -26,13 +26,13 @@ export default function Settings() {
       title,
       slots: [
         {
-          points: "100",
+          points: 100,
           isActive: false,
           winner: null,
         },
-        { points: "200", isActive: false, winner: null },
-        { points: "300", isActive: false, winner: null },
-        { points: "400", isActive: false, winner: null },
+        { points: 200, isActive: false, winner: null },
+        { points: 300, isActive: false, winner: null },
+        { points: 400, isActive: false, winner: null },
       ],
       activeSlot: 0,
       isActive: false,
