@@ -1,6 +1,6 @@
 "use client";
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { Game } from "../models/interfaces";
+import { Game, GameState } from "../models/interfaces";
 import Pusher from "pusher-js";
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -15,6 +15,26 @@ const GameProvider = ({ children }: { children: React.ReactNode }) => {
   const [game, setGameState] = useState<Game | null>(null);
 
   useEffect(() => {
+    // Fetch the initial game state
+    const fetchInitialState = async () => {
+      try {
+        const response = await fetch(`/api/gameState?id=${gameId}`);
+        if (!response.ok) {
+          console.error(
+            `Failed to fetch initial game state: ${response.statusText}`
+          );
+          // If no game is found, keep the current logic (game initialized to null)
+          return;
+        }
+        const initialGameState: Game = await response.json();
+        setGameState(initialGameState);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchInitialState(); // Call the async function
+
     const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY!, {
       cluster: process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER!,
     });
@@ -53,8 +73,29 @@ const GameProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const resetGame = () => {
-    setGameState(null);
+  const resetGame = async () => {
+    const emptyGameState: Game = {
+      gameId: gameId, // reuse the existing game ID or generate a new one if desired
+      gameState: GameState.GAME_SETUP, // or whatever your initial state should be
+      categories: [],
+      teams: [],
+    };
+
+    try {
+      const response = await fetch("/api/gameState", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(emptyGameState),
+      });
+      if (!response.ok) {
+        throw new Error(`Failed to reset game state: ${response.statusText}`);
+      }
+      setGameState(emptyGameState);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const value = { game, updateGameState, resetGame };

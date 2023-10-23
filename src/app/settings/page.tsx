@@ -73,7 +73,7 @@ export default function Settings() {
   return (
     <main>
       <h1>Innstillinger</h1>
-      {!game?.gameId ? (
+      {game?.gameState === GameState.GAME_SETUP ? (
         <form className={styles.form} onSubmit={handleSubmit}>
           <label className={styles.subtitle}>
             Hvor mange kategorier?
