@@ -76,6 +76,9 @@ input {
   border-radius: 50px;
   border: 0;
   background: rgba(255, 255, 255, 0.4);
+  &:disabled {
+    background: var(--purple);
+  }
   &::placeholder {
     font-size: 1rem;
     color: gray;

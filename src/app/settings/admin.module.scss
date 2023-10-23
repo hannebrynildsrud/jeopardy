@@ -1,5 +1,6 @@
 .top_container {
   display: flex;
+  gap: 1.5rem;
   flex-direction: column;
 }
 
@@ -14,5 +15,18 @@
     &:hover {
       background-color: var(--purple);
     }
+  }
+}
+
+.grid {
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+  .title {
+    text-align: left;
+  }
+  .winner_input {
+    display: flex;
+    gap: 1rem;
   }
 }
