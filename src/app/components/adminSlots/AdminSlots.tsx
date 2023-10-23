@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useGameContext } from "../../context/GameContext";
 import { Category, Slots, Team } from "../../models/interfaces";
 import styles from "./AdminSlots.module.scss";
@@ -9,9 +10,8 @@ interface Props {
 
 export default function AdminSlots(props: Props) {
   const { slots, category } = props;
+  const [winner, setWinner] = useState<string>("");
   const { game, updateGameState } = useGameContext();
-
-  console.log(slots);
 
   const updateActiveCategory = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -69,14 +69,15 @@ export default function AdminSlots(props: Props) {
         >
           <input
             key={slot.points}
-            disabled={slot.isActive}
+            disabled={category.activeSlot !== slot.points}
             type="text"
             placeholder="Skriv inn vinner..."
+            onChange={(e) => setWinner(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 updateWinner(category, slot, {
-                  teamName: "team",
-                  score: 100,
+                  teamName: winner,
+                  score: slot.points,
                 });
               }
             }}
