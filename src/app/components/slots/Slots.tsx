@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { Slots } from "../../models/interfaces";
 import styles from "./Slots.module.scss";
 
@@ -13,8 +14,12 @@ export default function Slots(props: Props) {
     <>
       {slots.map((slot) => (
         <input
-          className={styles.slot}
+          className={classNames(
+            styles.slot,
+            slot.isActive && styles.active_slot
+          )}
           key={slot.points}
+          value={slot.winner?.teamName}
           type="text"
           placeholder={slot.points.toString()}
           onKeyDown={(e) => {
