@@ -64,17 +64,17 @@ export default function Game() {
       <div className={styles.container}>
         <Confetti active={confetti} config={confettiConfig} />
         {game?.gameState === GameState.TEAM_REGISTRATION && renderCategories()}
-        {/* { (
+        {game?.gameState === GameState.TEAM_REGISTRATION && (
           <div className={styles.qr_code_container}>
             <h3>Registreringen er åpen!</h3>{" "}
-            {game.gameId && (
+            {game?.gameId && (
               <QRCodeSVG
                 value={`${process.env.NEXT_PUBLIC_URL}/team/${game.gameId}`}
                 className={styles.qr_code}
               />
             )}
           </div>
-        )} */}
+        )}
       </div>
     </main>
   );

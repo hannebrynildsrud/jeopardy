@@ -4,7 +4,7 @@ import { Game } from "../models/interfaces";
 import Pusher from "pusher-js";
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
-
+const gameId = "STATIC_GAME_ID";
 interface GameContextType {
   game: Game | null;
   updateGameState: (newGameState: Game) => void;
@@ -15,37 +15,42 @@ const GameProvider = ({ children }: { children: React.ReactNode }) => {
   const [game, setGameState] = useState<Game | null>(null);
 
   useEffect(() => {
-    if (game) {
-      const { gameId } = game;
+    const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY!, {
+      cluster: process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER!,
+    });
 
-      const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY!, {
-        cluster: process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER!,
-      });
+    const channel = pusher.subscribe(`game-${gameId}`); // Adjust this to your channel name
 
-      const channel = pusher.subscribe(`game-${gameId}`);
+    const handleStateUpdate = (newGameState: Game) => {
+      console.log("Received state update:", newGameState);
+      setGameState(newGameState);
+    };
 
-      channel.bind("state-update", (newGameState: Game) => {
-        console.log("Received state update:", newGameState);
-        setGameState(newGameState);
-      });
+    channel.bind("state-update", handleStateUpdate);
 
-      return () => {
-        pusher.unsubscribe(`game-${gameId}`);
-      };
-    }
-  }, [game]);
+    return () => {
+      channel.unbind("state-update", handleStateUpdate);
+      pusher.unsubscribe(`game-${gameId}`); // Adjust this to your channel name
+    };
+  }, []);
 
   const updateGameState = async (newGameState: Game) => {
     console.log("Updating game state:", newGameState);
-    setGameState(newGameState);
-
-    await fetch("/api/gameState", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newGameState),
-    });
+    try {
+      const response = await fetch("/api/gameState", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newGameState),
+      });
+      if (!response.ok) {
+        throw new Error(`Failed to update game state: ${response.statusText}`);
+      }
+      setGameState(newGameState);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const resetGame = () => {
