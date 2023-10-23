@@ -1,6 +1,6 @@
 "use client";
 
-import styles from "./page.module.scss";
+import styles from "./CategoryInput.module.scss";
 
 interface Props {
   categoryIndex: number;

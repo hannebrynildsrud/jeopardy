@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import styles from "./admin.module.scss";
-import { useGameContext } from "../context/GameContext";
-import Categories from "../components/categories/Categories";
+import { useGameContext } from "../../context/GameContext";
+import Categories from "../../components/categories/Categories";
 
 interface Props {
   resetGame: () => void;

@@ -3,10 +3,10 @@
 import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 import styles from "./page.module.scss";
-import { Admin } from "./admin";
+import { Admin } from "./admin/admin";
 import { Category, Game, GameState } from "../models/interfaces";
-import { CategoryInput } from "./category";
 import { useGameContext } from "../context/GameContext";
+import { CategoryInput } from "../components/categoryInput/CategoryInput";
 
 export default function Settings() {
   const options: number[] = [1, 2, 3, 4, 5];
