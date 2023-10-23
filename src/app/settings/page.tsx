@@ -28,11 +28,11 @@ export default function Settings() {
         {
           points: "100",
           isActive: false,
-          winner: "Some Winner",
+          winner: null,
         },
-        { points: "200", isActive: false, winner: "Some Winner" },
-        { points: "300", isActive: false, winner: "Some Winner" },
-        { points: "400", isActive: false, winner: "Some Winner" },
+        { points: "200", isActive: false, winner: null },
+        { points: "300", isActive: false, winner: null },
+        { points: "400", isActive: false, winner: null },
       ],
       activeSlot: 0,
       isActive: false,
@@ -66,7 +66,6 @@ export default function Settings() {
       categories: filteredCategories,
       teams: [],
     };
-    localStorage.setItem("gameId", newGameId);
     updateGameState(updatedGameState);
   };
 

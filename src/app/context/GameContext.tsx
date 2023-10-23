@@ -13,7 +13,6 @@ interface GameContextType {
 
 const GameProvider = ({ children }: { children: React.ReactNode }) => {
   const [game, setGameState] = useState<Game | null>(null);
-  const savedId = localStorage.getItem("gameId");
 
   useEffect(() => {
     if (game) {
@@ -34,7 +33,7 @@ const GameProvider = ({ children }: { children: React.ReactNode }) => {
         pusher.unsubscribe(`game-${gameId}`);
       };
     }
-  }, [game, savedId]);
+  }, [game]);
 
   const updateGameState = async (newGameState: Game) => {
     console.log("Updating game state:", newGameState);

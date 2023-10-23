@@ -63,8 +63,8 @@ export default function Game() {
       <p className={styles.subtitle}>...with a lil twist ;)</p>
       <div className={styles.container}>
         <Confetti active={confetti} config={confettiConfig} />
-        {game?.gameState === GameState.ROUND_ACTIVE && renderCategories()}
-        {game?.gameState === GameState.TEAM_REGISTRATION && (
+        {game?.gameState === GameState.TEAM_REGISTRATION && renderCategories()}
+        {/* { (
           <div className={styles.qr_code_container}>
             <h3>Registreringen er åpen!</h3>{" "}
             {game.gameId && (
@@ -74,7 +74,7 @@ export default function Game() {
               />
             )}
           </div>
-        )}
+        )} */}
       </div>
     </main>
   );
