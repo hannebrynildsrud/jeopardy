@@ -7,6 +7,7 @@ import { GameState } from "./models/interfaces";
 import { confettiConfig } from "./utils/confettiConfig";
 import { useGameContext } from "./context/GameContext";
 import Categories from "./components/categories/Categories";
+import { QRCodeSVG } from "qrcode.react";
 
 export default function Game() {
   const [confetti, setConfetti] = useState(false);
@@ -23,6 +24,17 @@ export default function Game() {
         <Confetti active={confetti} config={confettiConfig} />
         {game?.gameState === GameState.TEAM_REGISTRATION && (
           <Categories setConfetti={setConfetti} categories={game.categories} />
+        )}
+        {game?.gameState === GameState.TEAM_REGISTRATION && (
+          <div className={styles.qr_code_container}>
+            <h3>Registreringen er åpen!</h3>{" "}
+            {game?.gameId && (
+              <QRCodeSVG
+                value={`${process.env.NEXT_PUBLIC_URL}/team/${game.gameId}`}
+                className={styles.qr_code}
+              />
+            )}
+          </div>
         )}
       </div>
     </main>

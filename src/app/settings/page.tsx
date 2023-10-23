@@ -59,7 +59,8 @@ export default function Settings() {
     const filteredCategories = categories.filter(
       (category) => category.title.trim() !== ""
     );
-    const newGameId = uuidv4();
+    // const newGameId = uuidv4();
+    const newGameId = "STATIC_GAME_ID";
     const updatedGameState: Game = {
       gameId: newGameId,
       gameState: GameState.TEAM_REGISTRATION,
