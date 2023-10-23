@@ -6,14 +6,14 @@ import styles from "./page.module.scss";
 import { Admin } from "./admin";
 import { Category, Game, GameState } from "../models/interfaces";
 import { CategoryInput } from "./category";
-import { useGameState } from "../hooks/useGameState";
+import { useGameContext } from "../context/GameContext";
 
 export default function Settings() {
   const options: number[] = [1, 2, 3, 4, 5];
   const [numOfCategories, setNumOfCategories] = useState<number>(1);
   const [categories, setCategories] = useState<Category[]>([]);
 
-  const { game, updateGameState, resetGame } = useGameState();
+  const { game, updateGameState, resetGame } = useGameContext();
 
   const handleNumberOfCategories = (event: any) => {
     setNumOfCategories(event.target.value);
@@ -55,17 +55,18 @@ export default function Settings() {
   };
 
   const handleSubmit = (e: any) => {
-    e.preventDefault(); 
+    e.preventDefault();
     const filteredCategories = categories.filter(
-        (category) => category.title.trim() !== ""
+      (category) => category.title.trim() !== ""
     );
     const newGameId = uuidv4();
     const updatedGameState: Game = {
-        gameId: newGameId,
-        gameState: GameState.TEAM_REGISTRATION,
-        categories: filteredCategories, 
-        teams: [],
+      gameId: newGameId,
+      gameState: GameState.TEAM_REGISTRATION,
+      categories: filteredCategories,
+      teams: [],
     };
+    localStorage.setItem("gameId", newGameId);
     updateGameState(updatedGameState);
   };
 

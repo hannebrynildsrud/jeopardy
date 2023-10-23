@@ -1,6 +1,7 @@
 import "./globals.scss";
 import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
+import { GameProvider } from "./context/GameContext";
 
 const open_sans = Open_Sans({ subsets: ["latin"] });
 
@@ -16,7 +17,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="nb">
-      <body className={open_sans.className}>{children}</body>
+      <GameProvider>
+        <body className={open_sans.className}>{children}</body>
+      </GameProvider>
     </html>
   );
 }

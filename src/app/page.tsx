@@ -4,14 +4,14 @@ import styles from "./page.module.scss";
 import { useEffect, useState } from "react";
 import Confetti from "react-dom-confetti";
 import { Category, GameState, Slots } from "./models/interfaces";
-import { useGameState } from "./hooks/useGameState";
 import { QRCodeSVG } from "qrcode.react";
 import { confettiConfig } from "./utils/confettiConfig";
+import { useGameContext } from "./context/GameContext";
 
 export default function Game() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [confetti, setConfetti] = useState(false);
-  const { game } = useGameState();
+  const { game, updateGameState, resetGame } = useGameContext();
 
   useEffect(() => {
     if (game) {

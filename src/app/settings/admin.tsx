@@ -12,8 +12,6 @@ export function Admin(props: Props) {
   const { resetGame } = props;
   const { game } = useGameState();
 
-  const onStartGame = () => {};
-
   return (
     <>
       <div className={styles.top_container}>
