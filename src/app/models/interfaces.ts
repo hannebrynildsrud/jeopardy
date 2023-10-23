@@ -6,6 +6,7 @@ export interface Game {
 }
 
 export enum GameState {
+  GAME_SETUP = "GAME_SETUP",
   TEAM_REGISTRATION = "TEAM_REGISTRATION",
   ROUND_SETUP = "ROUND_SETUP",
   ROUND_ACTIVE = "ROUND_ACTIVE",
