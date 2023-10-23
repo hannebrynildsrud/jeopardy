@@ -7,12 +7,15 @@ const GameContext = createContext<GameContextType | undefined>(undefined);
 const gameId = "STATIC_GAME_ID";
 interface GameContextType {
   game: Game | null;
+  confetti: boolean;
+  enableConfetti: (isConfetti: boolean) => void;
   updateGameState: (newGameState: Game) => void;
   resetGame: () => void;
 }
 
 const GameProvider = ({ children }: { children: React.ReactNode }) => {
   const [game, setGameState] = useState<Game | null>(null);
+  const [confetti, setConfetti] = useState(false);
 
   useEffect(() => {
     const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY!, {
@@ -53,11 +56,15 @@ const GameProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const enableConfetti = (isConfetti: boolean) => {
+    setConfetti(isConfetti);
+  };
+
   const resetGame = () => {
     setGameState(null);
   };
 
-  const value = { game, updateGameState, resetGame };
+  const value = { game, updateGameState, resetGame, enableConfetti, confetti };
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;
 };

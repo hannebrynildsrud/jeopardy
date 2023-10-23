@@ -23,25 +23,6 @@
     left: 3.5rem;
     opacity: 0.1;
   }
-  &:hover {
-    border: 0.125rem solid var(--purple);
-    cursor: pointer;
-    outline: 0;
-    border-radius: 0;
-    border-top-left-radius: 70% 50%;
-    border-top-right-radius: 30% 45%;
-    border-bottom-right-radius: 30% 70%;
-    border-bottom-left-radius: 30% 50%;
-  }
-  &:focus {
-    border: 0.125rem solid var(--primary);
-    outline: 0;
-    border-radius: 0;
-    border-top-left-radius: 70% 50%;
-    border-top-right-radius: 30% 45%;
-    border-bottom-right-radius: 30% 70%;
-    border-bottom-left-radius: 30% 50%;
-  }
 }
 
 .active_slot {

@@ -11,7 +11,7 @@ interface Props {
 export default function AdminSlots(props: Props) {
   const { slots, category } = props;
   const [winner, setWinner] = useState<string>("");
-  const { game, updateGameState } = useGameContext();
+  const { game, updateGameState, enableConfetti } = useGameContext();
 
   const updateActiveCategory = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -44,6 +44,7 @@ export default function AdminSlots(props: Props) {
     slot: Slots,
     winner: Team | null
   ) => {
+    enableConfetti(true);
     if (game) {
       const updatedGame = { ...game };
       if (updatedGame) {
