@@ -12,8 +12,12 @@ export default function Settings() {
   const options: number[] = [1, 2, 3, 4, 5];
   const [numOfCategories, setNumOfCategories] = useState<number>(1);
   const [categories, setCategories] = useState<Category[]>([]);
+  // Perform localStorage action
+  const isAuthenticated =
+    typeof window !== "undefined" && localStorage.getItem("authenticated");
+
   const [authenticated, setAuthenticated] = useState(
-    localStorage.getItem("authenticated") === "true" // Check local storage for authentication state
+    isAuthenticated === "true" // Check local storage for authentication state
   );
 
   const { game, updateGameState, resetGame } = useGameContext();
