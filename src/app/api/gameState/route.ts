@@ -13,8 +13,7 @@ export async function GET(req: NextRequest) {
   if (!gameId) {
     return NextResponse.json({ error: "Game ID is required" }, { status: 400 });
   }
-
-  const gameState = await kv.get<GameState>(`gameState-${gameId}`);
+  const gameState = await kv.get<GameState>(`game-${gameId}`);
   if (gameState) {
     return NextResponse.json(gameState, { status: 200 });
   } else {
