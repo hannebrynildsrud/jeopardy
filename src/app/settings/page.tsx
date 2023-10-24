@@ -1,7 +1,6 @@
 "use client";
-
-import { v4 as uuidv4 } from "uuid";
-import { useState, useEffect } from "react"; // Import useEffect
+import React, { useEffect } from "react";
+import { useState } from "react";
 import styles from "./page.module.scss";
 import { Admin } from "./admin/admin";
 import { Category, Game, GameState } from "../models/interfaces";
@@ -92,9 +91,8 @@ export default function Settings() {
 
   return (
     <main>
-      {authenticated ? ( // Render content only if authenticated
+      {authenticated ? (
         <>
-          <h1>Innstillinger</h1>
           {game?.gameState === GameState.GAME_SETUP ? (
             <form className={styles.form} onSubmit={handleSubmit}>
               <label className={styles.subtitle}>
@@ -125,7 +123,9 @@ export default function Settings() {
             <Admin resetGame={resetGame} />
           )}
         </>
-      ) : null}
+      ) : (
+        <h1>Ikke autentisert</h1>
+      )}
     </main>
   );
 }
