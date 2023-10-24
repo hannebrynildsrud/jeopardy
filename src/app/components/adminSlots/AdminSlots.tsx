@@ -25,13 +25,12 @@ export default function AdminSlots(props: Props) {
       );
 
       if (updatedCategory) {
-        updatedCategory.isActive = true;
         updatedCategory.activeSlot = slot.points;
-        const updatedSlot = updatedCategory.slots.find(
-          (s) => s.points === slot.points
-        );
 
-        if (updatedSlot) updatedSlot.isActive = true;
+        // Update isActive property for all slots in the category
+        updatedCategory.slots.forEach((s) => {
+          s.isActive = s.points === slot.points;
+        });
       }
       if (game?.gameId) {
         updateGameState(updatedGame);
@@ -44,7 +43,7 @@ export default function AdminSlots(props: Props) {
     slot: Slots,
     winner: Team | null
   ) => {
-    enableConfetti(true);
+    enableConfetti();
     if (game) {
       const updatedGame = { ...game };
       if (updatedGame) {

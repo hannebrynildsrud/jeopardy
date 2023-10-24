@@ -9,11 +9,14 @@ import { useGameContext } from "./context/GameContext";
 import Categories from "./components/categories/Categories";
 
 export default function Game() {
-  const { game, confetti } = useGameContext();
+  const { game } = useGameContext();
   const [categories, setCategories] = useState<Category[]>([]);
+  const [showConfetti, setConfetti] = useState<boolean>(false);
 
   useEffect(() => {
     game && setCategories(game?.categories);
+    setConfetti(true);
+    setTimeout(() => setConfetti(false), 2000);
   }, [game]);
 
   return (
@@ -24,7 +27,9 @@ export default function Game() {
       <h1 className={styles.title}>Jeopardy</h1>
       <p className={styles.subtitle}>...with a lil twist ;)</p>
       <div className={styles.container}>
-        <Confetti active={confetti} config={confettiConfig} />
+        <div className={styles.confetti}>
+          <Confetti active={showConfetti} config={confettiConfig} />
+        </div>
         {game?.gameState === GameState.TEAM_REGISTRATION && (
           <Categories categories={categories} />
         )}

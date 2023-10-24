@@ -1,31 +1,37 @@
-.top_container {
+.container {
   display: flex;
-  gap: 1.5rem;
-}
-
-.button_container {
-  display: flex;
-  gap: 1rem;
-  .reset {
-    align-self: flex-end;
-    background: transparent;
-    color: var(--primary);
-    border: 2px solid var(--primary);
-    &:hover {
-      background-color: var(--purple);
-    }
-  }
-}
-
-.grid {
-  display: flex;
-  gap: 1rem;
   flex-direction: column;
-  .title {
-    text-align: left;
+  gap: 1rem;
+  align-items: end;
+  .top_container {
+    display: flex;
+    gap: 1.5rem;
   }
-  .winner_input {
+
+  .button_container {
     display: flex;
     gap: 1rem;
+    .reset {
+      align-self: flex-end;
+      background: transparent;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+      &:hover {
+        background-color: var(--purple);
+      }
+    }
+  }
+
+  .grid {
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+    .title {
+      text-align: left;
+    }
+    .winner_input {
+      display: flex;
+      gap: 1rem;
+    }
   }
 }
