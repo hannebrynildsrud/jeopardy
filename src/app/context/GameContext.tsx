@@ -8,7 +8,7 @@ const gameId = "STATIC_GAME_ID";
 interface GameContextType {
   game: Game | null;
   confetti: boolean;
-  enableConfetti: (isConfetti: boolean) => void;
+  enableConfetti: () => void;
   updateGameState: (newGameState: Game) => void;
   resetGame: () => void;
 }
@@ -20,6 +20,8 @@ const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY!, {
 const GameProvider = ({ children }: { children: React.ReactNode }) => {
   const [game, setGameState] = useState<Game | null>(null);
   const [confetti, setConfetti] = useState(false);
+
+  console.log(confetti);
 
   useEffect(() => {
     const channel = pusher.subscribe(`game-${gameId}`);
@@ -73,8 +75,8 @@ const GameProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const enableConfetti = (isConfetti: boolean) => {
-    setConfetti(isConfetti);
+  const enableConfetti = () => {
+    setConfetti(!confetti);
   };
 
   const resetGame = async () => {

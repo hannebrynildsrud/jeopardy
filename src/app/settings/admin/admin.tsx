@@ -15,7 +15,7 @@ export function Admin(props: Props) {
   const { game } = useGameContext();
 
   return (
-    <>
+    <div className={styles.container}>
       <div className={styles.top_container}>
         {game && <Categories categories={game.categories} isAdmin={true} />}
       </div>
@@ -27,6 +27,6 @@ export function Admin(props: Props) {
           <Link href="/"> Start spillet</Link>
         </button>
       </div>
-    </>
+    </div>
   );
 }
