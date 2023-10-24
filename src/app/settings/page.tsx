@@ -11,28 +11,26 @@ export default function Settings() {
   const options: number[] = [1, 2, 3, 4, 5];
   const [numOfCategories, setNumOfCategories] = useState<number>(1);
   const [categories, setCategories] = useState<Category[]>([]);
-  // Perform localStorage action
-  const isAuthenticated =
-    typeof window !== "undefined" && localStorage.getItem("authenticated");
-
-  const [authenticated, setAuthenticated] = useState(
-    isAuthenticated === "true" // Check local storage for authentication state
-  );
+  const [authenticated, setAuthenticated] = useState(false);
 
   const { game, updateGameState, resetGame } = useGameContext();
 
   useEffect(() => {
-    if (!authenticated) {
-      // Only show prompt if not already authenticated
+    const isAuthenticated =
+      typeof window !== "undefined" && localStorage.getItem("authenticated");
+    const isAuthenticatedValue = isAuthenticated === "true";
+    setAuthenticated(isAuthenticatedValue);
+
+    if (!isAuthenticatedValue) {
       const password = prompt("Please enter your password:", "");
       if (password === "sjøpølse") {
         setAuthenticated(true);
-        localStorage.setItem("authenticated", "true"); // Set local storage on correct password
+        localStorage.setItem("authenticated", "true");
       } else {
         alert("Incorrect password.");
       }
     }
-  }, [authenticated]); // Depend on authenticated state
+  }, []);
 
   const handleNumberOfCategories = (event: any) => {
     setNumOfCategories(event.target.value);
@@ -92,7 +90,7 @@ export default function Settings() {
   return (
     <main>
       {authenticated ? (
-        <>
+        <div>
           {game?.gameState === GameState.GAME_SETUP ? (
             <form className={styles.form} onSubmit={handleSubmit}>
               <label className={styles.subtitle}>
@@ -122,7 +120,7 @@ export default function Settings() {
           ) : (
             <Admin resetGame={resetGame} />
           )}
-        </>
+        </div>
       ) : (
         <h1>Ikke autentisert</h1>
       )}
