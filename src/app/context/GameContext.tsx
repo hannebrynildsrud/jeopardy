@@ -13,36 +13,35 @@ interface GameContextType {
   resetGame: () => void;
 }
 
+const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY!, {
+  cluster: process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER!,
+});
+
 const GameProvider = ({ children }: { children: React.ReactNode }) => {
   const [game, setGameState] = useState<Game | null>(null);
   const [confetti, setConfetti] = useState(false);
 
   useEffect(() => {
-    // Fetch the initial game state
-    const fetchInitialState = async () => {
-      try {
-        const response = await fetch(`/api/gameState?id=${gameId}`);
-        if (!response.ok) {
-          console.error(
-            `Failed to fetch initial game state: ${response.statusText}`
-          );
-          // If no game is found, keep the current logic (game initialized to null)
-          return;
-        }
-        const initialGameState: Game = await response.json();
-        setGameState(initialGameState);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+    const channel = pusher.subscribe(`game-${gameId}`);
 
-    fetchInitialState(); // Call the async function
+    // const fetchInitialState = async () => {
+    //   try {
+    //     const response = await fetch(`/api/gameState?id=${gameId}`);
+    //     if (!response.ok) {
+    //       console.error(
+    //         `Failed to fetch initial game state: ${response.statusText}`
+    //       );
+    //       // If no game is found, keep the current logic (game initialized to null)
+    //       return;
+    //     }
+    //     const initialGameState: Game = await response.json();
+    //     setGameState(initialGameState);
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // };
 
-    const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_APP_KEY!, {
-      cluster: process.env.NEXT_PUBLIC_PUSHER_APP_CLUSTER!,
-    });
-
-    const channel = pusher.subscribe(`game-${gameId}`); // Adjust this to your channel name
+    // fetchInitialState(); // Call the async function
 
     const handleStateUpdate = (newGameState: Game) => {
       console.log("Received state update:", newGameState);
@@ -52,7 +51,6 @@ const GameProvider = ({ children }: { children: React.ReactNode }) => {
     channel.bind("state-update", handleStateUpdate);
 
     return () => {
-      channel.unbind("state-update", handleStateUpdate);
       pusher.unsubscribe(`game-${gameId}`); // Adjust this to your channel name
     };
   }, []);
@@ -96,6 +94,7 @@ const GameProvider = ({ children }: { children: React.ReactNode }) => {
         },
         body: JSON.stringify(emptyGameState),
       });
+      localStorage.removeItem("authenticated");
       if (!response.ok) {
         throw new Error(`Failed to reset game state: ${response.statusText}`);
       }
