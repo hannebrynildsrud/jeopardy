@@ -27,7 +27,9 @@ export default function Game() {
       <h1 className={styles.title}>Jeopardy</h1>
       <p className={styles.subtitle}>...with a lil twist ;)</p>
       <div className={styles.container}>
-        <Confetti active={showConfetti} config={confettiConfig} />
+        <div className={styles.confetti}>
+          <Confetti active={showConfetti} config={confettiConfig} />
+        </div>
         {game?.gameState === GameState.TEAM_REGISTRATION && (
           <Categories categories={categories} />
         )}
