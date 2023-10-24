@@ -24,24 +24,23 @@ const GameProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const channel = pusher.subscribe(`game-${gameId}`);
 
-    // const fetchInitialState = async () => {
-    //   try {
-    //     const response = await fetch(`/api/gameState?id=${gameId}`);
-    //     if (!response.ok) {
-    //       console.error(
-    //         `Failed to fetch initial game state: ${response.statusText}`
-    //       );
-    //       // If no game is found, keep the current logic (game initialized to null)
-    //       return;
-    //     }
-    //     const initialGameState: Game = await response.json();
-    //     setGameState(initialGameState);
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // };
+    const fetchInitialState = async () => {
+      try {
+        const response = await fetch(`/api/gameState?id=${gameId}`);
+        if (!response.ok) {
+          console.error(
+            `Failed to fetch initial game state: ${response.statusText}`
+          );
+          return;
+        }
+        const initialGameState: Game = await response.json();
+        setGameState(initialGameState);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-    // fetchInitialState(); // Call the async function
+    fetchInitialState(); // Call the async function
 
     const handleStateUpdate = (newGameState: Game) => {
       console.log("Received state update:", newGameState);
