@@ -6,12 +6,11 @@ import classNames from "classnames";
 
 interface Props {
   categories: Category[];
-  setConfetti?: (hasConfetti: boolean) => void;
   isAdmin?: boolean;
 }
 
 export default function Categories(props: Props) {
-  const { categories, setConfetti, isAdmin } = props;
+  const { categories, isAdmin } = props;
 
   return (
     <>
@@ -22,8 +21,9 @@ export default function Categories(props: Props) {
           >
             {category.title}
           </h3>
+
           {!isAdmin ? (
-            <Slots setConfetti={setConfetti} slots={category.slots} />
+            <Slots slots={category.slots} />
           ) : (
             <div className={styles.slots}>
               <AdminSlots slots={category.slots} category={category} />

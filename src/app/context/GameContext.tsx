@@ -7,12 +7,15 @@ const GameContext = createContext<GameContextType | undefined>(undefined);
 const gameId = "STATIC_GAME_ID";
 interface GameContextType {
   game: Game | null;
+  confetti: boolean;
+  enableConfetti: (isConfetti: boolean) => void;
   updateGameState: (newGameState: Game) => void;
   resetGame: () => void;
 }
 
 const GameProvider = ({ children }: { children: React.ReactNode }) => {
   const [game, setGameState] = useState<Game | null>(null);
+  const [confetti, setConfetti] = useState(false);
 
   useEffect(() => {
     // Fetch the initial game state
@@ -73,6 +76,10 @@ const GameProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const enableConfetti = (isConfetti: boolean) => {
+    setConfetti(isConfetti);
+  };
+
   const resetGame = async () => {
     const emptyGameState: Game = {
       gameId: gameId, // reuse the existing game ID or generate a new one if desired
@@ -98,7 +105,7 @@ const GameProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const value = { game, updateGameState, resetGame };
+  const value = { game, updateGameState, resetGame, enableConfetti, confetti };
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;
 };

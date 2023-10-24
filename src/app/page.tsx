@@ -9,8 +9,7 @@ import { useGameContext } from "./context/GameContext";
 import Categories from "./components/categories/Categories";
 
 export default function Game() {
-  const [confetti, setConfetti] = useState(false);
-  const { game } = useGameContext();
+  const { game, confetti } = useGameContext();
 
   return (
     <main>
@@ -22,7 +21,7 @@ export default function Game() {
       <div className={styles.container}>
         <Confetti active={confetti} config={confettiConfig} />
         {game?.gameState === GameState.TEAM_REGISTRATION && (
-          <Categories setConfetti={setConfetti} categories={game.categories} />
+          <Categories categories={game.categories} />
         )}
       </div>
     </main>
