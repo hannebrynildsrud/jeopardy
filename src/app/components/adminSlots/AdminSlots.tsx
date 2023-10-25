@@ -13,11 +13,7 @@ export default function AdminSlots(props: Props) {
   const [winner, setWinner] = useState<string>("");
   const { game, updateGameState, enableConfetti } = useGameContext();
 
-  const updateActiveCategory = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    category: Category,
-    slot: Slots
-  ) => {
+  const updateActiveCategory = (category: Category, slot: Slots) => {
     if (game) {
       const updatedGame = { ...game };
       const updatedCategory = updatedGame.categories?.find(
@@ -64,6 +60,20 @@ export default function AdminSlots(props: Props) {
     }
   };
 
+  const disableCategory = () => {
+    if (game) {
+      const updatedGame = { ...game };
+      const updatedCategory = updatedGame.categories?.find(
+        (c) => c.id === category.id
+      );
+
+      if (updatedCategory) {
+        updatedCategory.slots.forEach((slot) => (slot.isActive = false));
+      }
+      updateGameState(updatedGame); // Update game state to disable the category
+    }
+  };
+
   return (
     <>
       {slots.map((slot) => (
@@ -77,7 +87,7 @@ export default function AdminSlots(props: Props) {
               id={`${category.title}_${slot.points}`}
               name={category.title}
               value={`${category.title}_${slot.points}`}
-              onChange={(e) => updateActiveCategory(e, category, slot)}
+              onChange={() => updateActiveCategory(category, slot)}
             />
             Aktiv
           </label>
@@ -98,6 +108,15 @@ export default function AdminSlots(props: Props) {
           />
         </div>
       ))}
+      <label htmlFor={"inactive_slots"}>
+        <input
+          type="radio"
+          id={"inactive_slots"}
+          name={category.title}
+          onChange={disableCategory}
+        />
+        Fullfør kategori
+      </label>
     </>
   );
 }
